@@ -92,6 +92,8 @@ class Clock {
             time = getNistTime()
             waitTime = millisToNextMinute()
         } else {
+            calendar.add(Calendar.MINUTE, 1)
+            time = calendar.time
             waitTime = MINUTE_IN_MILLIS
         }
         return waitTime
