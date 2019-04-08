@@ -80,7 +80,7 @@ class Clock {
     }
 
     void update() {
-        timeLabel.setText(time.format('M/d/yyyy h:mm a z'))
+        timeLabel.setText(time.format('M/d/yyyy h:mm:ss a z'))
     }
 
     Integer syncTime() {
@@ -89,7 +89,7 @@ class Clock {
         calendar.setTime(time)
         Integer minutes = calendar.get(Calendar.MINUTE)
         if (minutes % 15 == 0) {
-            time = getNistTime()
+            syncNistTime()
             waitTime = millisToNextMinute()
         } else {
             calendar.add(Calendar.MINUTE, 1)
