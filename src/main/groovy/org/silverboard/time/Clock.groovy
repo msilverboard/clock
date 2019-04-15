@@ -4,13 +4,14 @@ import java.net.InetAddress
 import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Dimension
+import java.awt.Font
 import java.awt.GraphicsDevice
 import java.awt.GraphicsEnvironment
 import java.awt.Rectangle
+import javax.swing.ImageIcon
 import javax.swing.JFrame
 import javax.swing.JLabel
 import javax.swing.SwingConstants
-import java.awt.Font
 import javax.swing.plaf.FontUIResource
 import org.apache.commons.net.ntp.NTPUDPClient
 import org.apache.commons.net.ntp.NtpV3Packet
@@ -100,6 +101,8 @@ class Clock {
     }
 
     void initializeWindow() {
+        URL iconUrl = getClass().getResource('/modclock32.png')
+        ImageIcon icon = new ImageIcon(iconUrl)
         Color backgroundColor = new Color(
             backgroundColorR,
             backgroundColorG,
@@ -112,6 +115,7 @@ class Clock {
         jFrame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         jFrame.getContentPane().setBackground(backgroundColor)
         jFrame.setSize(300, 100)
+        jFrame.setIconImage(icon.image)
         timeLabel = new JLabel('', SwingConstants.CENTER)
         timeLabel.preferredSize = new Dimension(windowWidth, windowHeight)
         timeLabel.font = new FontUIResource(fontName, fontStyle, fontSize)
