@@ -7,6 +7,7 @@ import java.awt.Dimension
 import java.awt.Font
 import java.awt.GraphicsDevice
 import java.awt.GraphicsEnvironment
+import java.awt.Image
 import java.awt.Rectangle
 import javax.swing.ImageIcon
 import javax.swing.JFrame
@@ -27,6 +28,8 @@ class Clock {
     private static final List<String> INT_PROPS = ['windowWidth', 'windowHeight', 'backgroundColorR',
         'backgroundColorG', 'backgroundColorB', 'foregroundColorR', 'foregroundColorG', 
         'foregroundColorB', 'fontStyle', 'fontSize']
+    private static final List<String> ICON_FILES = ['/modclock256.png', '/modclock64.png', '/modclock48.png',
+        '/modclock40.png', '/modclock32.png', '/modclock24.png', '/modclock16.png']
 
     private Date currentTime
     private Date lastSync
@@ -100,9 +103,17 @@ class Clock {
         lastSync = new Date(serverTime)
     }
 
+    private ArrayList<Image> getIcons() {
+        ArrayList<Image> icons = []
+        ICON_FILES.each { filepath ->
+            URL iconUrl = getClass().getResource(filepath)
+            ImageIcon imageIcon = new ImageIcon(iconUrl)
+            icons << imageIcon.image
+        }
+        return icons
+    }
+
     void initializeWindow() {
-        URL iconUrl = getClass().getResource('/modclock32.png')
-        ImageIcon icon = new ImageIcon(iconUrl)
         Color backgroundColor = new Color(
             backgroundColorR,
             backgroundColorG,
@@ -115,7 +126,8 @@ class Clock {
         jFrame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         jFrame.getContentPane().setBackground(backgroundColor)
         jFrame.setSize(300, 100)
-        jFrame.setIconImage(icon.image)
+        ArrayList<Image> icons = getIcons()
+        jFrame.setIconImages(icons)
         timeLabel = new JLabel('', SwingConstants.CENTER)
         timeLabel.preferredSize = new Dimension(windowWidth, windowHeight)
         timeLabel.font = new FontUIResource(fontName, fontStyle, fontSize)
